@@ -102,6 +102,23 @@ class OrderBook{
             }
             return {order};
         }
+        else if (order.side === "SELL") {
+            let bidArr = this.bids;
+            while (order.remainingQuantity > 0 && bidArr.length > 0) {
+                let top = bidArr[0];
+                let orderFill = Math.min(order.remainingQuantity, top.remainingQuantity);
+                order.executedQuantity += orderFill;
+                order.remainingQuantity -= orderFill;
+                top.executedQuantity += orderFill;
+                top.remainingQuantity -= orderFill;
+
+                this.lastTradedPrice = top.price;
+                if (top.remainingQuantity <= 0) {
+                    bidArr.shift();
+                }
+            }
+            return order;
+        }
     }
     _limitMatch(order){
         if(order.side === "BUY"){
@@ -124,7 +141,6 @@ class OrderBook{
                 this.bids.push(order);
                 this._sort("BUY");
             }
-            
         }
         else{
             if(order.side === "SELL"){
@@ -253,3 +269,27 @@ console.log(BTCUSDOrderBook.getBookSnapShot());
 // console.log(BTCUSDOrderBook.getBookSnapShot());
 // BTCUSDOrderBook.placeOrder("BUY", "MARKET", null, 10, "Parmeet");
 // console.log(BTCUSDOrderBook.getBookSnapShot());
+
+
+
+/* 
+    PUB/SUB - event driven architecture
+    publisher and subscriber design pattern which we used for real time updates, communication between multiple component in microservice architechture , without knowing each other or having any direct connection
+
+    *like in radio station the publisher is the radio station and the subscribers are the users* 
+    *fire and forget is like if we have a show at 9pm and 2 subscribers are there and if a subscriber comes at 9:15pm then he will not get the show*
+    *communication is one way from publisher to subscriber*
+
+
+    Monolith : running server is only one but all components are tightly coupled and run within the same process
+        cons : scaling is difficult (cannot scale a particular component)
+               
+
+
+
+
+
+    Microservices
+
+
+*/
