@@ -292,4 +292,10 @@ console.log(BTCUSDOrderBook.getBookSnapShot());
     Microservices
 
 
+
+
+    SingleTon pattern: LOW LEVEL DESIGN
+    it is used when we want only one object of a class to be created 
+    if a resource is shared between multiple components then we want one person to control that resource
+
 */
