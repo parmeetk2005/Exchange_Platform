@@ -1,0 +1,43 @@
+PUB/SUB - event driven architecture
+    publisher and subscriber design pattern which we used for real time updates, communication between multiple component in microservice architechture , without knowing each other or having any direct connection
+
+    *like in radio station the publisher is the radio station and the subscribers are the users* 
+    *fire and forget is like if we have a show at 9pm and 2 subscribers are there and if a subscriber comes at 9:15pm then he will not get the show*
+    *communication is one way from publisher to subscriber*
+
+
+
+
+
+
+
+
+    Monolith : running server is only one but all components are tightly coupled and run within the same process
+        cons : scaling is difficult (cannot scale a particular component)
+               
+
+
+
+
+
+    Microservices
+
+
+
+
+    SingleTon pattern: LOW LEVEL DESIGN
+    it is used when we want only one object of a class to be created 
+    if a resource is shared between multiple components then we want one person to control that resource
+
+
+
+
+example: we have an ecommerce website open in 3 tabs and if we do add to cart in one tab and it will be done in all three tabs
+how??
+
+websocket solution
+polling - network overhead
+pub/sub solution
+
+
+INDEXING IN DATABASE:-to retrive data fast to reduce the time complexity
