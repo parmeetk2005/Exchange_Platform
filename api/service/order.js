@@ -5,6 +5,7 @@ class OrderBook{
         this.ask = [],   // filled by market makers
         this._nextId = 1,
         this.lastTradedPrice = null;
+        this.trades = [];
     }
 
     // ----------------- helper function to generate unique ids -----------------
@@ -92,6 +93,14 @@ class OrderBook{
             while(order.remainingQuantity > 0 && askArray.length > 0){
                 let top = askArray[0];
                 let orderFill = Math.min(order.remainingQuantity, top.remainingQuantity);
+                if(orderFill > 0){
+                    this.lastTradedPrice = top.price;
+                    this.trades.unshift({
+                        id: Math.floor(Math.random()*1000000),
+                        quantity: orderFill,
+                        price: top.price
+                    });
+                }
                 order.executedQuantity += orderFill;
                 order.remainingQuantity -= orderFill;
                 top.executedQuantity += orderFill;
@@ -109,6 +118,14 @@ class OrderBook{
             while (order.remainingQuantity > 0 && bidArr.length > 0) {
                 let top = bidArr[0];
                 let orderFill = Math.min(order.remainingQuantity, top.remainingQuantity);
+                if(orderFill > 0){
+                    this.lastTradedPrice = top.price;
+                    this.trades.unshift({
+                        id: Math.floor(Math.random()*1000000),
+                        quantity: orderFill,
+                        price: top.price
+                    });
+                }
                 order.executedQuantity += orderFill;
                 order.remainingQuantity -= orderFill;
                 top.executedQuantity += orderFill;
@@ -129,6 +146,14 @@ class OrderBook{
                 let top = opposite[0];
                 if(order.price >= top.price){
                     let fillOrder = Math.min(order.remainingQuantity, top.remainingQuantity);
+                    if(fillOrder > 0){
+                    this.lastTradedPrice = top.price;
+                    this.trades.unshift({
+                        id: Math.floor(Math.random()*1000000),
+                        quantity: fillOrder,
+                        price: top.price
+                    });
+                }
                     order.remainingQuantity -= fillOrder;
                     order.executedQuantity += fillOrder;
                     top.remainingQuantity -= fillOrder;
@@ -151,7 +176,15 @@ class OrderBook{
                     let top = opposite[0];
                     if(order.price <= top.price){
                         let fillOrder = Math.min(order.remainingQuantity, top.remainingQuantity);
-                        order.remaqiningQuantity -= fillOrder;
+                        if(fillOrder > 0){
+                        this.lastTradedPrice = top.price;
+                        this.trades.unshift({
+                            id: Math.floor(Math.random()*1000000),
+                            quantity: fillOrder,
+                            price: top.price
+                        });
+                        }
+                        order.remainingQuantity -= fillOrder;
                         order.executedQuantity += fillOrder;
                         top.remainingQuantity -= fillOrder;
                         top.executedQuantity += fillOrder;
@@ -179,6 +212,9 @@ class OrderBook{
             lastUpdated : Date.now()
             // currentPrice : 
         }
+    }
+    getRecentTrades(limit = 10){
+        return this.trades.slice(0,limit);
     }
 }
 
@@ -256,7 +292,6 @@ let BTCUSDOrderBook = new OrderBook();
 
 
 // fill bids as market maker
-
 console.log(BTCUSDOrderBook.getBookSnapShot());
 BTCUSDOrderBook.placeOrder("BUY", "LIMIT", "1506.00", 10, "Parmeet")
 BTCUSDOrderBook.placeOrder("BUY", "LIMIT", "1505.00", 20, "Romsha")
