@@ -1,5 +1,6 @@
 class OrderBook{
-    constructor(symbol = "BTCUSD"){     // what will user want that constructor will take symbol as input
+    multipleMarket = new Map();
+    _constructor(symbol){     // what will user want that constructor will take symbol as input
         this.symbol = symbol,
         this.bids = [],
         this.ask = [],   // filled by market makers
@@ -7,10 +8,17 @@ class OrderBook{
         this.lastTradedPrice = null;
         this.trades = [];
     }
-
+    // ----------------------- for multiple symbols ---------------------------
+    static getOrderBook(symbol){
+        if(! multipleMarket.has(symbol)){
+            let orderBook = new OrderBook(symbol);
+            multipleMarket.set(symbol, orderBook);
+        }
+        return multipleMarket.get(symbol);
+    }
     // ----------------- helper function to generate unique ids -----------------
     _generateOrderId(){
-        return this._nextId++;
+        return this._nextId++; // if a function or variable starts with _ it means it is private means only accessible within the class
     }
 
     // ----------------- helper function to sort -----------------

@@ -28,7 +28,7 @@ PUB/SUB - event driven architecture
     SingleTon pattern: LOW LEVEL DESIGN
     it is used when we want only one object of a class to be created 
     if a resource is shared between multiple components then we want one person to control that resource
-
+    (we want only one instance of the class)
 
 
 
@@ -41,3 +41,10 @@ pub/sub solution
 
 
 INDEXING IN DATABASE:-to retrive data fast to reduce the time complexity
+
+
+
+
+ NEXT global
+ 1. multi market
+ 2. only one instace of particular market
